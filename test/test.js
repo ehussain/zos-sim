@@ -9,6 +9,8 @@ const { Contracts } = require('zos-lib')
 
 const MyContract = Contracts.getFromLocal('MyContract');
 const MyContractV2 = Contracts.getFromLocal('MyContractV2');
+const MyContractV3 = Contracts.getFromLocal('MyContractV3');
+const MyContractV4 = Contracts.getFromLocal('MyContractV4');
 const MigratableMockV1 = Contracts.getFromNodeModules('zos-lib', 'MigratableMockV1')
 const MigratableMockV2 = Contracts.getFromNodeModules('zos-lib', 'MigratableMockV2')
 const MigratableMockV3 = Contracts.getFromNodeModules('zos-lib', 'MigratableMockV3')
@@ -89,8 +91,45 @@ contract('AdminUpgradeabilityProxy', ([_, admin, anotherAccount]) => {
       
       await myContractV2Instance.sub(50)
       const value5 = await myContractV2Instance.value()
-      console.log(value5)      
+      console.log(value5)    
 
+      
+      var myContractV3 = await MyContractV3.new()
+      console.log('myContractV3' , myContractV3.address, admin);
+      await myContractProxy.upgradeTo(myContractV3.address, { from : admin })
+      var myContractV3Instance = new MyContractV3(myContractProxy.address)
+
+      await myContractV3Instance.add(150)
+      const value6 = await myContractV3Instance.value()
+      console.log(value6) 
+      
+      await myContractV3Instance.sub(50)
+      const value7 = await myContractV3Instance.value()
+
+      console.log('admin : old' , await myContractProxy.admin.call({from: admin}));
+      var contractAddress = myContractProxy.address;
+      contractAddress = anotherAccount;
+      contractAddress = admin;
+      
+      console.log('proxy : ' , myContractProxy.address);
+      console.log('contractAddress : ' , contractAddress);
+      await myContractProxy.changeAdmin(contractAddress , {from: admin});
+      console.log('admin : new' , await myContractProxy.admin.call({from: admin}));
+
+      // var myContractV4 = await MyContractV4.new()
+      // console.log('myContractV4' , myContractV4.address, admin);
+      // await myContractProxy.upgradeTo(myContractV4.address, { from : admin })
+      // var myContractV4Instance = new MyContractV4(myContractProxy.address)
+
+      // await myContractV4Instance.add(150)
+      // const value8 = await myContractV4Instance.value()
+      // console.log(value8) 
+      
+      // await myContractV4Instance.sub(50)
+      // const value9 = await myContractV4Instance.value()
+
+      // await myContractV4Instance.mul(5)
+      // const value10 = await myContractV4Instance.value()
     })
   })
 }) 
