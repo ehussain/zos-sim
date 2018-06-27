@@ -12,7 +12,7 @@ const MyContract = Contracts.getFromLocal('MyContract');
 const MyContractV2 = Contracts.getFromLocal('MyContractV2');
 const AdminUpgradeabilityProxy = Contracts.getFromNodeModules('zos-lib', 'AdminUpgradeabilityProxy');
 
-const owner = web3.eth.accounts[0];
+const owner = web3.eth.accounts[1];
 const admin = web3.eth.accounts[0];
 const accounts = web3.eth.accounts;
 console.log(owner, admin);
@@ -26,7 +26,7 @@ async function main() {
 	var myContractInstance = MyContract.at(myContractProxy.address)
 
 	console.log('myContract initialize');
-	await myContractInstance.initialize(100)
+	await myContractInstance.initialize(100 , {from: owner})
 	const value1 = await myContractInstance.value()
 	console.log(value1)
 
