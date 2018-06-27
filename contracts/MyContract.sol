@@ -22,7 +22,7 @@ contract MyContractV2 is MyContract {
 }
 
 contract MyContractV3 is MyContractV2 {
-	function upgrade(address newContract) {
+	function selfupdate(address newContract) {
 		AdminUpgradeabilityProxy(this).upgradeTo(newContract);
 	}
 }
