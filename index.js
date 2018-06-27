@@ -17,7 +17,7 @@ const admin = web3.eth.accounts[0];
 const accounts = web3.eth.accounts;
 console.log(owner, admin);
 
-module.exports = async function() {
+async function main() {
 	console.log(' - initialize - ');
 
 	var myContract = await MyContract.new()
@@ -51,4 +51,8 @@ module.exports = async function() {
 	await myContractV2Instance.sub(50)
 	const value5 = await myContractV2Instance.value()
 	console.log(value5)      
-};
+}
+
+module.exports = callback => main()
+    .catch(error => console.error("Error running script", error))
+    .then(callback);
