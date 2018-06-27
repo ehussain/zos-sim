@@ -2,11 +2,13 @@ pragma solidity ^0.4.21;
 
 import "zos-lib/contracts/migrations/Migratable.sol";
 import "zos-lib/contracts/upgradeability/AdminUpgradeabilityProxy.sol";
+import "openzeppelin-zos/contracts/ownership/Ownable.sol";
 
-contract MyContract is Migratable {
+contract MyContract is Migratable, Ownable {
 
 	uint256 public value;
-	function initialize(uint256 _value) isInitializer("MyContract", "0") public {
+	function initialize(address owner, uint256 _value) isInitializer("MyContract", "0") public {
+		Ownable.initialize(msg.sender);
 		value = _value;
 	}
 
