@@ -23,7 +23,7 @@ async function main() {
 	var myContract = await MyContract.new()
 	console.log('myContract' , myContract.address, admin);
 	var myContractProxy = await AdminUpgradeabilityProxy.new(myContract.address, { from: admin })
-	var myContractInstance = new MyContract(myContractProxy.address)
+	var myContractInstance = MyContract.at(myContractProxy.address)
 
 	console.log('myContract initialize');
 	await myContractInstance.initialize(100)
@@ -40,7 +40,7 @@ async function main() {
 	var myContractV2 = await MyContractV2.new()
 	console.log('myContractV2' , myContractV2.address, admin);
 	await myContractProxy.upgradeTo(myContractV2.address, { from : admin })
-	var myContractV2Instance = new MyContractV2(myContractProxy.address)
+	var myContractV2Instance = MyContractV2.at(myContractProxy.address)
 
 	console.log('myContractV2 add');
 	await myContractV2Instance.add(150)
