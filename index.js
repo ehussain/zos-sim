@@ -30,7 +30,7 @@ async function main() {
 
 	console.log('myContract initialize');
 	console.log(owner, 100);
-	await myContractInstance.initialize(owner, 100, {from: owner})
+	await myContractInstance.initialize(owner, 100)
 
 	const _owner = await myContractInstance.owner.call()
 	console.log(_owner);
