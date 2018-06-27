@@ -8,7 +8,7 @@ contract MyContract is Migratable, Ownable {
 
 	uint256 public value;
 	function initialize(address owner, uint256 _value) isInitializer("MyContract", "0") public {
-		Ownable.initialize(msg.sender);
+		Ownable.initialize(owner);
 		value = _value;
 	}
 
